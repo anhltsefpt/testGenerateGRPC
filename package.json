@@ -1,0 +1,23 @@
+{
+  "name": "test_grpc_web",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^7.31.0"
+  },
+  "dependencies": {
+    "@improbable-eng/grpc-web": "^0.14.0",
+    "@improbable-eng/grpc-web-node-http-transport": "^0.14.0",
+    "@types/google-protobuf": "^3.15.3",
+    "google-protobuf": "^3.17.3",
+    "grpc_tools_node_protoc_ts": "^5.3.0",
+    "ts-protoc-gen": "^0.15.0",
+    "xmlhttprequest": "^1.8.0"
+  }
+}

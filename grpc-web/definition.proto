@@ -1,0 +1,813 @@
+syntax = "proto3";
+
+package stockscreener_public;
+
+service Symbol {
+  rpc GetSymbol(SymbolQuery) returns (SymbolDetail) {}
+  rpc GetSearchSuggestion(SearchQuery) returns (SearchSuggestionResponse) {}
+  rpc GetScreenerOptions(ScreenerOptsQuery) returns (ScreenerOptions) {}
+  rpc ScreenSymbols(ScreenSymbolsQuery) returns (ScreenSymbolResult) {}
+  rpc GetWatchList(WatchListQuery) returns (WatchListResponse) {}
+  rpc GetSymbolNews(SymbolNewsQuery) returns (SymbolNewsResult) {}
+  rpc RemoveSymbol(SymbolQuery) returns (InfoResult) {}
+  rpc Get52WeekLowHigh(TopLowHighQuery) returns (TopLowHighResult) {}
+  rpc GetAllSymbols(Exchange) returns (StockModels) {}
+  rpc GetAllSymbolsWebsite(Exchange) returns (StockModelsWebsite) {}
+  rpc GetFinancialIdentity(SymbolQuery) returns (SymbolIdentity) {}
+
+  rpc ScreenSymbolsMultipleExchanges(ScreenSymbolsMultipleExchangesQuery) returns (ScreenSymbolResult) {}
+  rpc GetListSectors(SectorQuery) returns (ListSectors) {}
+  rpc GetCountForType(GetCountQuery) returns (GetCountResult) {}
+  rpc GetOptionDate(SymbolOptionDateQuery) returns (SymbolOptionDateResponse) {}
+  rpc GetOption(SymbolOptionQuery) returns (ListOptions) {}
+  rpc GetOption2(SymbolOptionQuery) returns (ListOptions2) {}
+  rpc GetPriceByOptionId(OptionQuery) returns (ListOptionPrices) {}
+  rpc GetOHLCByOptionId(OptionQuery) returns (ListEodOptionPrice) {}
+  rpc GetChartOptionByOptionId(OptionQuery) returns (OptionChartResponse) {}
+  rpc GetComments(SymbolNewsQuery) returns (CommentsResult) {}
+  rpc DeleteExpiredOption(DeleteQuery) returns (Response) {}
+  rpc GetOptionRatio(StockRaw) returns (ListCallPutRatioResponse) {}
+
+  rpc GetEps(SymbolQuery) returns (EpsResult) {}
+  rpc GetRevenue(SymbolQuery) returns (EpsResult) {}
+  rpc GetNetIncome(SymbolQuery) returns (EpsResult) {}
+  rpc GetFreeCashFlow(SymbolQuery) returns (EpsResult) {}
+  rpc GetDebt(SymbolQuery) returns (EpsResult) {}
+  rpc GetInsideTrades(SymbolQuery) returns (InsideTradesResult) {}
+  rpc GetHolder(SymbolQuery) returns (Holders) {}
+  rpc GetStocksByHolder(HolderQuery) returns (SymbolHolders) {}
+  rpc GetTopOptionDate(a) returns (SymbolOptionDateResponse) {}
+
+  rpc GetHolderV2(SymbolHolderQuery) returns (HoldersResponse) {}
+  rpc GetFinancials(SymbolQuery) returns (FinancialResponse) {}
+  rpc GetTopOptionByDate(OptionDateQuery) returns (ListTopOptions) {}
+  rpc GetFinancialFormLink(SymbolQuery) returns (FinancialFormLink) {}
+
+  rpc GetHolderV3(CusipQuery) returns (HoldersResponse) {}
+  rpc GetAllHolder(a) returns (AllHolders) {}
+
+  rpc GetListHolder(HolderFilter) returns (HolderResponse) {}
+
+  rpc GetStocksOnHolder(HolderParam) returns (HolderStockResponse) {}
+  rpc GetEarningHistory(EarningQuery) returns (EarningHistoryResponse) {}
+  rpc GetUpgradeAndDowngrade(SymbolQuery) returns (ListUpgradeDowngradeResponse) {}
+  rpc GetTrends(SymbolQuery) returns (ListTrendsResponse) {}
+  rpc GetNextEarning(SymbolQuery) returns (ListEarningResponse) {}
+  rpc GetHotListStock(a) returns (HotListStockResponse) {}
+  rpc GetDetailListHotStock(HotListStockQuery) returns (HotListDetailStockResponse) {}
+  rpc GetDetailListHotStockV2(HotListStockV2Query) returns (HotListDetailStockV2Response) {}
+  rpc GetIndividualSpecial(SymbolQuery) returns (IndividualSpecialResponse) {}
+  rpc GetNextEarningDate(a) returns (NextEarningDatesResponse) {}
+  rpc GetStocksForEarningDate(EarningQueryDate) returns (EarningStockResponse) {}
+  rpc GetListIndustry(a) returns (IndustryResponse) {}
+  rpc GetIndustryChart(IndustryParam) returns (IndustryChartResponse) {}
+
+  rpc GetOptionAggregate(SymbolQuery) returns (OptionAggregateResponse) {}
+
+  rpc Test(a) returns (OptionAggregateResponse) {}
+}
+
+message OptionAggregateResponse {
+  repeated OptionAggregateModel data = 1;
+}
+
+message OptionAggregateModel {
+  uint32 expiration = 1;
+  uint32 call = 2;
+  uint32 put = 3;
+  double summaryCall = 4;
+  double summaryPut = 5;
+}
+
+message IndustryParam {
+  string id = 1;
+}
+
+message IndustryChartModel {
+  uint32 time = 1;
+  uint32 cap = 2;
+}
+
+message IndustryChartResponse {
+  repeated IndustryChartModel data = 1;
+}
+
+message IndustryResponse {
+  repeated IndustryModel data = 1;
+}
+
+message IndustryModel {
+  string id = 1;
+  uint64 cap = 2;
+  string name = 3;
+  string popular = 4;
+  uint32 volume = 5;
+}
+
+message EarningQueryDate {
+  string date = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+}
+
+message ListCallPutRatioResponse {
+  repeated CallPutRatioResponse data = 1;
+}
+
+message CallPutRatioResponse {
+  uint32 call = 1;
+  uint32 put = 2;
+  uint32 time = 3;  
+}
+
+message EarningStockResponse {
+  repeated SymbolDetail symbols = 1;
+  uint32 total = 2;
+}
+
+message EarningDateItem {
+  string day = 1;
+  uint32 length = 2;
+}
+
+message StockRaw {
+  string exchange = 1;
+  string symbol = 2;
+}
+
+message NextEarningDatesResponse {
+  repeated EarningDateItem items = 1;
+  repeated StockRaw stocks = 2;
+}
+
+message IndividualSpecialResponse {
+  string symbol = 1;
+  string exchange = 2;
+  bool is_show = 3;
+  string title = 4;
+  string description = 5;
+  string url = 6;
+  string tab_name = 7;
+  string paragraph = 8;
+}
+
+message HotListStockQuery {
+  string url = 1;
+}
+
+message HotListStockV2Query {
+  string url = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+}
+
+message HotListDetailStockV2Response {
+  string title = 1;
+  string description = 2;
+  string paragraph = 3;
+  repeated SymbolDetail symbols = 4;
+  uint32 total = 5;
+}
+
+message HotListDetailStockResponse {
+  string title = 1;
+  string description = 2;
+  string paragraph = 3;
+  repeated SymbolDetail symbols = 4;
+}
+
+message HotListStockResponse {
+  repeated HotListStockItem results = 1;
+}
+
+message HotListStockItem {
+  string title = 1;
+  string description = 2;
+  string url = 3;
+}
+
+message ListEarningResponse {
+  repeated EarningResponse results = 1;
+}
+
+message EarningResponse {
+  uint32 end_date = 1;
+  double avg = 2;
+}
+
+message ListTrendsResponse {
+  repeated Trend results = 1;
+}
+
+message Trend {
+  string period = 1;
+  uint32 strong_buy = 2;
+  uint32 buy = 3;
+  uint32 hold = 4;
+  uint32 sell = 5;
+  uint32 strong_sell = 6;
+}
+
+message ListUpgradeDowngradeResponse {
+  repeated UpgradeDowngrade results = 1;
+}
+
+message UpgradeDowngrade {
+  string rate = 1;
+  string value = 2;
+  string research = 3;
+  string type = 4;
+  uint32 date = 5;
+}
+
+message EarningHistoryResponse {
+  repeated EarningHistoryData results = 1;
+}
+
+message EarningHistoryData {
+  uint32 earning_date = 1;
+  double estimate = 2;
+  string period_earning = 3;
+  double reported = 4;
+  double surprise = 5;
+  double surprise_percent = 6;
+}
+
+message EarningQuery {
+  uint32 from = 1;
+  uint32 to = 2;
+  string symbol = 3;
+  string exchange_slug = 4;
+}
+
+message HolderParam {
+  string cik = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+
+}
+
+message HolderStockItem {
+  string symbol = 1;
+  string exchange_slug = 2;
+  uint32 share = 3;
+  double price = 4;
+  uint32 last_updated = 5;
+  string link = 6;
+  string short_name = 7;
+  uint32 previous_share = 8;
+  uint32 previous_share_2 = 9;
+  uint32 previous_share_3 = 10;
+  uint32 previous_share_4 = 11;
+}
+
+message HolderStockResponse {
+  uint32 total = 1;
+  double total_value = 2;
+  repeated HolderStockItem items = 3;
+  string website = 4;
+  string name = 5;
+  uint32 last_updated = 6;
+  string phone = 7;
+  string address = 8;
+}
+
+message HolderFilter {
+  string sort_by = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+}
+
+message HolderResponse {
+  repeated HolderData data = 1;
+  uint32 count = 2;
+}
+
+message HolderData {
+  string title = 1;
+  string cik = 2;
+  double value = 3;
+  string address = 4;
+  string website = 5;
+  string phone = 6;
+}
+
+message CusipQuery {
+  string cusip = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+}
+
+message AllHolders {
+  repeated string owner_name = 1;
+}
+
+message SymbolIdentity {
+  string cik = 1;
+  string bloomberg = 2;
+  string sic = 3;
+}
+
+message HolderQuery {
+  string name = 1;
+}
+
+message SymbolHolderQuery {
+  string exchange_slug = 1;
+  string symbol = 2;
+  string site = 3;
+  uint32 limit = 4;
+  uint32 offset = 5;
+}
+
+message HoldersResponse {
+  uint32 total = 1;
+  repeated Holder result = 2;
+}
+
+message a {
+
+}
+
+message FinancialResponse {
+  repeated FinancialData result = 1;
+}
+
+message FinancialData {
+  string name = 1;
+  repeated Eps result = 2;
+}
+
+message TopOptionDateResponse {
+  repeated uint32 date = 1;
+}
+
+message OptionDateQuery {
+  string date = 1;
+  uint32 limit = 2;
+  uint32 offset = 3;
+}
+
+message SymbolHolder {
+  string symbol = 1;
+  string date = 2;
+  uint32 shares_held = 3;
+}
+
+message SymbolHolders {
+  repeated SymbolHolder result = 1;
+}
+
+message Holders {
+  repeated Holder result = 1;
+}
+
+message Holder {
+  string date = 1;
+  string owner_name = 2;
+  uint32 shares_held = 3;
+  string link = 4;
+  string cik = 5;
+}
+
+message InsideTradesResult {
+  repeated InsideTrade result = 1;
+}
+
+message InsideTrade {
+  string inside_trading = 1;
+  string relationship = 2;
+  string date = 3;
+  string transaction = 4;
+  double costs = 5;
+  double share = 6;
+  double value = 7;
+  double share_total = 8;
+  string sec_form = 9;
+  string link_sec = 10;
+}
+
+message DeleteQuery {
+  string symbol = 1;
+  string date = 2;
+}
+
+message EpsResult {
+  repeated Eps result = 1;
+}
+
+message Eps {
+  string time = 1;
+  double value = 2;
+}
+
+message Response {
+  string status = 1;
+}
+
+message SymbolOptionDateQuery {
+  string symbol = 1;
+}
+
+message SymbolOptionDateResponse {
+  repeated string results = 1;
+}
+
+message SymbolOptionQuery {
+  string symbol = 1;
+  string date = 2;
+}
+
+message OptionQuery {
+  string option_id = 1;
+  string expiration = 2;
+  string symbol = 3;
+}
+
+message ListOptionPrices {
+  repeated OptionPrice results = 1;
+}
+
+message ListEodOptionPrice {
+  repeated EodOptionprice results = 1;
+}
+
+message EodOptionprice {
+  double price = 1;
+  double vol = 2;
+  double open = 3;
+  double high = 4;
+  double low = 5;
+  double close = 6;
+  uint32 time = 7;
+}
+
+message OptionPrice {
+  double price = 1;
+  double vol = 2;
+  string time = 3;
+}
+
+message GetCountQuery {
+  string site = 1;
+  string type = 2;
+  string name = 3;
+}
+
+message GetCountResult {
+  uint32 count = 1;
+  string name = 2;
+}
+
+message Exchange {
+  string exchange_slug = 1;
+}
+
+message SectorQuery {
+  string site = 1;
+  uint32 size = 2;
+  uint32 page = 3;
+}
+
+message StockModel {
+  string symbol = 1;
+  string short_name = 2;
+  string yf_symbol = 3;
+  string cik = 4;
+  string cusip = 5;
+}
+
+message StockModelWebsite {
+  string symbol = 1;
+  string short_name = 2;
+  string yf_symbol = 3;
+  string website = 4;
+  string cik = 5;
+}
+
+message StockModelsWebsite {
+  repeated StockModelWebsite results = 1;
+}
+
+message ListSectors {
+  repeated Sector results = 1;
+}
+
+message Sector {
+  string name = 1;
+  uint32 count = 2;
+}
+
+message ListTopOptions {
+  uint32 total = 1;
+  repeated Option result = 2;
+}
+
+message ListOptions {
+  repeated Option results = 1;
+}
+
+message ListOptions2 {
+  repeated Option2 results = 1;
+}
+
+message Option2 {
+  string option_id = 1;
+  string symbol = 2;
+  string expiration = 3;
+  double last_price = 4;
+  double strike = 5;
+  uint32 open_interest = 6;
+  string type = 7;
+  double change = 8;
+  double change_percent = 9;
+  double vol = 10;
+  uint32 last_update = 11;
+}
+
+message Option {
+  string option_id = 1;
+  string symbol = 2;
+  string expiration = 3;
+  double last_price = 4;
+  double strike = 5;
+  uint32 open_interest = 6;
+  string type = 7;
+  double change = 8;
+  double change_percent = 9;
+  double vol = 10;
+  uint32 last_update = 11;
+}
+
+message StockModels {
+  repeated StockModel results = 1;
+}
+
+message SymbolQuery {
+  string exchange_slug = 1;
+  string symbol = 2;
+  string site = 3;
+}
+
+message SymbolDetail {
+  string exchange_slug = 1;
+  string symbol = 2;
+  double last_price = 3;
+  double percent_change = 4;
+  double absolute_change = 5;
+  double volume_1d = 6;
+  double low_1_day = 7;
+  double high_1_day = 8;
+  double low_52_weeks = 9;
+  double high_52_weeks = 10;
+  double market_cap = 11;
+  double previous_close = 12;
+  string address = 13;
+  string city = 14;
+  string zip = 15;
+  string country = 16;
+  string phone = 17;
+  string website = 18;
+  string sector = 19;
+  string industry = 20;
+  uint32 no_of_employees = 21;
+  string description = 22;
+  double percent_change_1M = 23;
+  double percent_change_6M = 24;
+  string company = 25;
+  double percent_change_1W = 26;
+  double preHour = 27;
+  double afterHour = 28;
+  string cik = 29;
+  string twitter = 30;
+  string cusip = 31;
+  string next_earning_date = 32;
+  double target_high_price = 33;
+  double target_low_price = 34;
+  double target_mean_price = 35;
+  double target_median_price = 36;
+  double percent_change_1Y = 37;
+  double percent_change_5Y = 38;
+}
+
+message SearchQuery {
+  string site = 1;
+  string keyword = 2;
+}
+
+message SearchSuggestionResponse {
+  repeated SearchSuggestion results = 1;
+}
+
+message SearchSuggestion {
+  string symbol = 1;
+  string company = 2;
+  string exchange = 3;
+  bool is_stock = 4;
+}
+
+message ScreenerOptions {
+  repeated string sectors = 1;
+  repeated string industries = 2;
+}
+
+message ScreenerOptsQuery {
+  string site = 1;
+}
+
+enum SortBy {
+  SYMBOL = 0;
+  COMPANY = 1;
+  SECTOR = 2;
+  INDUSTRY = 3;
+  MARKET_CAP = 4;
+  PRICE = 5;
+  PERCENT_CHANGE = 6;
+  CURRENT_VOLUME = 7;
+  PERCENT_CHANGE_1M = 8;
+  PERCENT_CHANGE_6M = 9;
+  LOW_1D = 10;
+  HIGH_1D = 11;
+  PERCENT_AFTER_HOUR = 12;
+  PERCENT_PRE_HOUR = 13;
+  PERCENT_CHANGE_1W = 14;
+}
+
+message ScreenSymbolsQuery {
+  string site = 1;
+  ScreenerQuery query = 2;
+  SortBy sort_by = 3;
+  bool sort_desc = 4;
+  uint32 page_size = 5;
+  uint32 offset = 6;
+}
+
+message ScreenSymbolsMultipleExchangesQuery {
+  string site = 1;
+  ScreenerQueryMultipleExchanges query = 2;
+  SortBy sort_by = 3;
+  bool sort_desc = 4;
+  uint32 page_size = 5;
+  uint32 offset = 6;
+}
+
+message ScreenerQueryMultipleExchanges {
+  RangeQuery market_cap = 1;
+  RangeQuery price = 2;
+  RangeQuery current_volume = 3;
+  RangeQuery percent_change = 4;
+  string sector = 5;
+  string industry = 6;
+  RangeQuery percent_change_1M = 7;
+  RangeQuery percent_change_6M = 8;
+  repeated string exchanges = 9;
+  RangeQuery percent_change_1W = 10;
+  RangeQuery sma50_sma200_ratio = 11;
+  RangeQuery rsi14 = 12;
+  RangeQuery sma20_price_ratio = 13;
+  RangeQuery sma50_price_ratio = 14;
+  RangeQuery sma200_price_ratio = 15;
+  RangeQuery percent_pre_hour = 16;
+  RangeQuery percent_after_hour = 17;
+}
+
+message ScreenerQuery {
+  RangeQuery market_cap = 1;
+  RangeQuery price = 2;
+  RangeQuery current_volume = 3;
+  RangeQuery percent_change = 4;
+  string sector = 5;
+  string industry = 6;
+  RangeQuery percent_change_1M = 7;
+  RangeQuery percent_change_6M = 8;
+  string exchange = 9;
+  RangeQuery sma50_sma200_ratio = 10;
+  RangeQuery rsi14 = 11;
+  RangeQuery sma20_price_ratio = 12;
+  RangeQuery sma50_price_ratio = 13;
+  RangeQuery sma200_price_ratio = 14;
+  RangeQuery percent_pre_hour = 15;
+  RangeQuery percent_after_hour = 16;
+}
+
+message RangeQuery {
+  double gte = 1;
+  double gt = 2;
+  double lte = 3;
+  double lt = 4;
+}
+
+message ScreenSymbolResult {
+  repeated ScreenResultItem results = 1;
+  uint32 total = 2;
+  uint32 current_offset = 3;
+}
+
+message ScreenResultItem {
+  string symbol = 1;
+  string company = 2;
+  double price = 3;
+  double current_volume = 4;
+  double market_cap = 5;
+  double percent_change = 6;
+  string sector = 7;
+  string industry = 8;
+  double percent_change_1M = 9;
+  double percent_change_6M = 10;
+  string exchange_slug = 11;
+  double percent_change_1W = 12;
+  double percent_change_1Y = 16;
+  double percent_change_5Y = 17;
+  double percent_pre_hour = 13;
+  double percent_after_hour = 14;
+  double previous_close = 15;
+  string next_earning_date = 18;
+  double sma50_sma200_ratio = 19;
+  double rsi14 = 20;
+  double sma20_price_ratio = 21;
+  double sma50_price_ratio = 22;
+  double sma200_price_ratio = 23;
+}
+
+message WatchListQuery {
+  repeated SymbolQuery symbols = 1;
+  bool full_info = 2;
+}
+
+message WatchListResponse {
+  repeated SymbolDetail symbols = 1;
+}
+
+message SymbolNewsQuery {
+  string exchange_slug = 1;
+  string symbol = 2;
+  string from = 3;
+  uint32 limit = 4;
+  repeated string fields = 5;
+}
+
+message SymbolNewsResult {
+  repeated SymbolNews news = 1;
+}
+
+message CommentsResult {
+  repeated CommentNews news = 1;
+}
+
+message SymbolNews {
+  uint32 published_at = 1;
+  string title = 2;
+  string link = 3;
+  string publisher = 4;
+}
+
+message CommentNews {
+  string text = 1;
+  string content = 2;
+  string author = 3;
+  uint32 time = 4;
+  string authoravatar = 5;
+  int32 replies = 6;
+  int32 upvote = 7;
+  int32 downvote = 8;
+}
+
+message InfoResult {
+  string message = 1;
+}
+message TopLowHighQuery {
+  string site = 1;
+  bool is_get_high = 2;
+  SortBy sort_by = 3;
+  bool sort_desc = 4;
+  uint32 page_size = 5;
+  uint32 offset = 6;
+}
+
+message TopLowHighResult {
+  repeated TopLowHighItem results = 1;
+  int32 total = 2;
+}
+
+message TopLowHighItem {
+  string exchange = 1;
+  string symbol = 2;
+  string company = 3;
+  double price = 4;
+  double percent_change = 5;
+  double current_volume = 6;
+  double market_cap = 7;
+  double low_1D = 8;
+  double high_1D = 9;
+  double low_52W = 10;
+  double high_52W = 11;
+  int32 low_high = 12;
+}
+
+message OptionChartResponse {
+  bytes image = 1;
+}
+
+message FinancialFormLink {
+  string link = 1;
+}
